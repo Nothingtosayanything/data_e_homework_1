@@ -13,6 +13,7 @@ select
     net_paid_amount,
     successful_payments_count,
     first_paid_at,
-    is_confirmed
+    is_confirmed,
+    items_count
 from {{ ref('int_orders_with_payments') }}
 where not is_test_order
