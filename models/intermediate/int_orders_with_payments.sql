@@ -4,6 +4,10 @@ with orders as (
     select * from {{ ref('stg_shop__orders') }}
 ),
 
+orders_items as (
+    select * from {{ ref('stg_shop__order_items') }}
+),
+
 payments as (
     select * from {{ ref('stg_shop__payments') }}
 ),
@@ -26,6 +30,14 @@ order_payments as (
         {%- endfor %}
     from payments
     group by order_id
+),
+
+dif_product as (
+    select
+        oi.order_id,
+        COUNT(DISTINCT oi.product_id) as items_count
+        from orders_items as oi
+        group by oi.order_id
 )
 
 select
@@ -46,7 +58,10 @@ select
     coalesce(p.failed_operations_count, 0)   as failed_operations_count,
     coalesce(p.pending_operations_count, 0)  as pending_operations_count,
     o.order_status = 'paid' and coalesce(p.successful_payments_count, 0) > 0
-                                             as is_confirmed                 -- статус paid и хотя бы одна успешная оплата
+                                             as is_confirmed,                -- статус paid и хотя бы одна успешная оплата
+    dfp.items_count
 from orders as o
 left join order_payments as p
     on p.order_id = o.order_id
+left join dif_product as dfp 
+    on dfp.order_id = o.order_id
