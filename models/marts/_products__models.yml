@@ -1,0 +1,23 @@
+version: 2
+
+models:
+  - name: dim_products
+    description: >
+      Справочник товаров с брендом и иерархией категорий, одна строка — один товар.
+    
+    columns:
+      - name: product_id
+        description: "Номер товара"
+        data_tests: [unique, not_null]
+      - name: product_name
+        description: "Название товара"
+      - name: brand
+        description: "Бренд товара"
+      - name: category_name
+        description: "Название категорий"
+      - name: parent_category_name
+        description: "Родитель категории, NULL для корневой категории"
+      - name: root_category_name
+        description: "Верхняя категория дерева"
+        data_tests: [not_null]
+
