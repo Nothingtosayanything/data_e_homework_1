@@ -1,0 +1,55 @@
+version: 2
+
+models:
+  - name: fct_order_items
+    description: "Позиции заказов без тестовых заказов, одна строка — один товар в заказе."
+    columns:
+      - name: order_item_id
+        description: "Ключ из order_id и product_id"
+        data_tests: [unique, not_null]
+
+      - name: order_id
+        description: "Идентификатор заказа"
+
+      - name: product_id
+        description: "Идентификатор товара"
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_products')
+                field: product_id
+
+      - name: customer_id
+        description: "Идентификатор клиента, оформившего заказ"
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_customers')
+                field: customer_id
+
+      - name: order_date
+        description: "Дата оформления заказа"
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_dates')
+                field: order_date
+
+      - name: quantity
+        description: "Количество единиц товара в позиции"
+        data_tests: [non_negative]
+
+      - name: unit_price
+        description: "Цена одной единицы товара до скидки"
+        data_tests: [non_negative]
+
+      - name: discount_amount
+        description: "Скидка на всю позицию"
+        data_tests: [non_negative]
+
+      - name: line_amount
+        description: "Стоимость позиции после скидки"
+        data_tests: [non_negative]
+
+      - name: is_confirmed
+        description: '{{ doc("confirmed_order") }}'

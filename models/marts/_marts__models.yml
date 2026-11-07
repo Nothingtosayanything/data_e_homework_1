@@ -12,8 +12,18 @@ models:
         data_tests: [unique, not_null]
       - name: customer_id
         description: "Клиент, оформивший заказ."
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_customers')
+                field: customer_id
       - name: order_date
         description: "Дата заказа."
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_dates')
+                field: order_date
       - name: ordered_at
         description: "Время оформления заказа."
       - name: order_status
@@ -31,5 +41,7 @@ models:
       - name: first_paid_at
         description: "Время первой успешной оплаты; пусто, если оплат нет."
       - name: is_confirmed
-        description: "Подтверждённая покупка: статус paid и хотя бы одна успешная оплата."
+        description: '{{ doc("confirmed_order") }}'
         data_tests: [not_null]
+      - name: items_count
+        description: "Количество разных товаров в заказе"
