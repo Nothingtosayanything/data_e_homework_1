@@ -1,0 +1,36 @@
+version: 2
+
+models:
+  - name: dim_customers
+    description: "Одна строка на клиента, включая клиентов без подтверждённых покупок"
+    columns:
+      - name: customer_id
+        description: "Уникальный идентификатор клиента"
+        data_tests: [unique, not_null]
+
+      - name: registered_at
+        description: "Дата и время регистрации клиента"
+
+      - name: registration_date
+        description: "Дата регистрации клиента"
+
+      - name: city
+        description: "Город клиента"
+
+      - name: acquisition_channel
+        description: "Канал привлечения клиента"
+
+      - name: first_confirmed_order_id
+        description: "ID первой подтверждённой покупки. NULL, если покупок нет"
+
+      - name: first_confirmed_at
+        description: "Время успешной оплаты первой подтверждённой покупки"
+
+      - name: confirmed_orders_count
+        description: "Количество подтверждённых заказов клиента"
+
+      - name: confirmed_revenue
+        description: "Сумма подтверждённых заказов клиента"
+
+      - name: is_buyer
+        description: "Есть ли у клиента хотя бы один подтверждённый заказ"
