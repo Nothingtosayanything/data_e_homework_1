@@ -1,0 +1,36 @@
+version: 2
+
+models:
+  - name: dim_dates
+    description: "Измерение дат с календарными атрибутами, одна строка — один день."
+
+    columns:
+      - name: order_date
+        description: "Дата, уникальный ключ измеренияй"
+        data_tests: [unique, not_null]
+      - name: year
+        description: "Год"
+        data_tests: [not_null]
+      - name: month
+        description: "Номер месяца"
+        data_tests: [not_null]
+      - name: day_of_month
+        description: "Число месяца"
+        data_tests: [not_null]
+      - name: quarter
+        description: "Номер квартала"
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [1, 2, 3, 4]
+      - name: day_of_week
+        description: "Номер дня недели"
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [1, 2, 3, 4, 5, 6, 7]
+      - name: day_name
+        description: "Название дня недели"
+      - name: is_weekend
+        description: "True для субботы и воскресенья, false для остальных дней"
+        data_tests: [not_null]
